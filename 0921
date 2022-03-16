@@ -1,0 +1,66 @@
+#include<stdio.h>
+#include<windows.h>
+#include<conio.h>
+	char map[9][12]={
+		{"*#*********"},
+		{"***###*###*"},
+		{"###**#****#"},
+		{"*#**###**#*"},
+		{"***********"},
+		{"#####*##*##"},
+		{"**#*****#*E"},
+		{"***#*###**#"},
+		{"*#*********"},
+	};
+	void print_map()
+	{
+		for(int i=0;i<9;i++)
+		{
+	    	puts(map[i]);
+		}
+	}
+	void show_cursor(int x,int y)
+	{
+    	COORD pos;
+    	pos.X=x;
+    	pos.Y=y;
+    	printf("curX=%d,curY=%d\n",x,y);
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),pos);
+	}
+	int curX,curY;
+	int main()
+	{
+		while(1)
+		{
+			system("cls");
+			print_map();
+			show_cursor(curX,curY);
+      	char c=getch();
+	    if(c=='n')
+		{
+	    	if((curY-1)>=0&&(map[curY-1][curX]=='*'||map[curY-1][curX]=='E'))
+			   curY--;
+		}
+	    else if(c=='s')
+		{
+	     	if((curY+1)<9&&(map[curY+1][curX]=='*'||map[curY+1][curX]=='E'))
+			curY++;
+		}
+        else if(c=='w')
+		{
+		    if((curX-1)>=0&&(map[curY][curX-1]=='*'||map[curY][curX-1]=='E'))
+			curX--;
+		}
+     	else if(c=='e')
+		{
+	    	if((curX+1)>=0&&(map[curY][curX+1]=='*'||map[curY][curX+1]=='E'))
+			curX++;
+		}
+	    if(map[curY][curX]=='E')
+		{
+			printf("恭喜你！成功了！\n");
+	    	break;
+		}
+	}
+    return 0;
+}
