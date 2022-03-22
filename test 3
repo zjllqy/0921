@@ -1,0 +1,27 @@
+#include<stdio.h>
+#include<string.h>
+
+int main()
+{
+	char sen[1000],word[30];
+	printf("请输入想要查询的英文句子：\n");
+    strlwr(gets(sen));
+	printf("请输入想要查询的单词：\n");
+    strlwr(gets(word));
+
+	int count=0;
+	for(int i=0;sen[i]!='\0';i++)
+	{
+		int k=0;
+		for (int j=i;sen[j]==word[k]&&sen[j]!='\0';k++,j++)
+		{
+				if(word[k+1]=='\0')
+				{
+					count++;
+					break;
+				}
+		}
+	}
+	printf("单词的出现的个数为：%d\n",count);
+    return 0;
+}
