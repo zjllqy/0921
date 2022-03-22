@@ -1,0 +1,24 @@
+#include<stdio.h>
+#include<string.h>
+
+int main() 
+{   char s[1005][20];
+    int a[1005];
+	int n;
+	scanf("%d",&n);
+	for(int i=0;i<n;i++) 
+	{
+		int x1, x2;
+		scanf("%s%d%d",s[0],&x1,&x2);
+		strcpy(s[x1],s[0]);
+		a[x1]=x2; 
+	}
+	scanf("%d",&n);
+	for(i=0;i<n;i++) 
+	{
+		int x; 
+		scanf("%d",&x);
+		printf("%s %d\n",s[x],a[x]);
+	}
+return 0;  
+} 
