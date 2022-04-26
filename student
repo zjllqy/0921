@@ -1,0 +1,177 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+
+struct student
+{
+	char name[100];
+	char id[10];
+	int age;
+    char sex[5];
+};
+
+struct Node
+{
+	struct student data;
+	struct Node*next;
+};
+//创建链表
+struct Node*createList()
+{
+	struct Node*headNode=(struct Node*)malloc(sizeof(struct Node));
+	headNode->next=NULL;
+	return headNode;
+};
+
+//创建结点
+struct Node*createNode(	struct student data)
+{
+	struct Node*newNode=(struct Node*)malloc(sizeof(struct Node));
+	newNode->data=data;
+	newNode->next=NULL;
+	return newNode;
+};
+
+//插入结点
+void insertNodeByHead(struct Node*headNode,	struct student data)
+{
+	struct Node*newNode=createNode(data);
+	newNode->next=headNode->next;
+	headNode->next=newNode;
+ 
+}
+
+//指定位置删除
+void deleteAppoinNode(struct Node*headNode,char *name)
+{
+	struct Node*posNode=headNode->next;
+	struct Node*posFrontNode=headNode;
+	if(posNode==NULL)
+	{
+		printf("数据为空，无法删除！\n");
+		return;
+	}
+	while(strcmp(posNode->data.name,name))
+	{
+		posFrontNode=posNode;
+		posNode=posFrontNode->next;
+		if(posNode==NULL)
+		{
+			printf("未找到指定位置无法删除！\n");
+			return;
+		}
+	}
+	posFrontNode->next=posNode->next;
+	free(posNode);
+}
+
+//查找功能
+struct Node*searchInfoByData(struct Node*headNode,char *name)
+{
+	struct Node*pMove=headNode->next;
+	if(pMove==NULL)
+	{
+		return NULL;
+	}
+	while(strcmp(pMove->data.name,name))
+	{
+		pMove=pMove->next;
+	}
+	return pMove;
+}
+//打印链表
+void printList(struct Node*headNode)
+{
+	struct Node*pMove=headNode->next;
+	printf("姓名\t学号\t\t年龄\t性别\n");
+	while(pMove)
+	{
+		printf("%s\t%s\t%d\t%s\n",pMove->data.name,pMove->data.id,pMove->data.age,pMove->data.sex);
+		pMove=pMove->next;
+	}
+	printf("\n");
+}
+
+
+void menu()
+{
+	printf("--------------【学生信息管理系统】------------\n");
+	printf("\t\t1.退出系统\n");
+	printf("\t\t2.录入信息\n");
+	printf("\t\t3.浏览信息\n");
+	printf("\t\t4.删除信息\n");
+	printf("\t\t5.查找信息\n");
+  	
+    printf("----------------------------------------------\n");
+}
+struct Node*list=createList();
+
+void KeyDown()
+{
+	int choice=0;
+	struct student data;
+	scanf("%d",&choice);
+	switch(choice)
+	{
+	case 1:
+		printf("正常退出！\n");
+		system("pause");
+		exit(0);
+		break;
+	case 2:
+		printf("---------------【录入信息】-----------------\n");
+        printf("请输入学生姓名、学号、年龄、性别：");
+        fflush(stdin);     //清空缓冲区
+		scanf("%s\t%s\t%d\t%s",data.name,data.id,&data.age,data.sex);
+		insertNodeByHead(list,data);
+		printf("录入成功！\n");
+		break;
+	case 3:
+		printf("---------------【浏览信息】-----------------\n");
+		printList(list); 
+		break;
+	case 4:
+		printf("---------------【删除信息】-----------------\n");
+		printf("请输入删除的学生名字：");
+		scanf("%s",data.name);
+        deleteAppoinNode(list,data.name);
+		break;
+	case 5:
+		printf("---------------【查找信息】-----------------\n");
+		printf("请输入要查找的学生姓名：");
+		scanf("%s",data.name);
+		if(searchInfoByData(list,data.name)==NULL)
+		{
+			printf("未找到相关信息，无法删除！\n");
+			system("pause");
+		}
+		else
+		{
+            printf("姓名\t学号\t\t年龄\t性别\n");
+            printf("%s\t%s\t%d\t%s\n",searchInfoByData(list,data.name)->data.name,
+				searchInfoByData(list,data.name)->data.id,
+				searchInfoByData(list,data.name)->data.age,
+				searchInfoByData(list,data.name)->data.sex);
+		}
+		break;
+	default:
+		printf("选择错误，重新输入\n");
+		system("pause");
+		break;
+	}
+}
+
+
+
+int main()
+{
+    while(1)
+	{
+		menu();
+		KeyDown();
+		system("pause");
+		system("cls");
+	}
+    system("pause");
+	return 0;
+}
