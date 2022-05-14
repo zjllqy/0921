@@ -1,0 +1,56 @@
+#include<stdio.h>
+
+struct Country
+{
+	char name[100];
+	int goldNum;
+	int silverNum;
+	int bronzeNum;
+	int totalNum;
+};
+
+
+void bubbleSort(Country a[],int n)
+{
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<n-1;j++)
+		{
+			if(a[j].totalNum>a[j+1].totalNum)
+			{
+				Country t=a[j];
+				a[j]=a[j+1];
+				a[j+1]=t;
+			}
+		}
+	}
+}
+
+typedef struct Country Country;
+
+int main()
+{
+    Country c[8];
+    FILE*fp=fopen("D:\\text.txt","r");
+	if(fp==NULL)
+	{
+		printf("error\n");
+		return 0;
+	}
+	for(int i=0;i<8;i++)
+	{
+        fscanf(fp,"%s\t%d\t%d\t%d\t%d",c[i].name,&c[i].goldNum,&c[i].silverNum,&c[i].bronzeNum,&c[i].totalNum);
+	}
+	fclose(fp);
+
+	bubbleSort(c,8);
+
+	FILE*outfp=fopen("D:\\new.txt","w");
+	for(int j=0;j<8;j++)
+	{
+		fprintf(outfp,"%s\t%d\t%d\t%d\t%d\n",c[j].name,c[j].goldNum,c[j].silverNum,c[j].bronzeNum,c[j].totalNum);
+	}
+    fclose(outfp);
+
+	return 0;
+}
